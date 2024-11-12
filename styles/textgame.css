@@ -9,12 +9,16 @@ html {
 body {
     background-color: burlywood;
     min-height: 100%;
+    margin: 0;
 }
 
 .header {
     background-color: khaki;
+    padding: 24px;
 }
 
 .header__page-title {
     color: cadetblue;
+    font-size: 4rem;
+    text-align: center;
 }

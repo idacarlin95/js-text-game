@@ -61,8 +61,3 @@ const playGame = () => {
 
 
 playGame();
-
-
-
-
-

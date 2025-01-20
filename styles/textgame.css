@@ -11,10 +11,9 @@ body {
     min-height: 100%;
 }
 
-.header {
-    background-color: khaki;
-}
-
-.header__page-title {
-    color: cadetblue;
+.game {
+    font-size: 10rem;
+    text-align: center;
+    color: blueviolet;
+    padding-top: 150px;
 }

@@ -1,39 +1,68 @@
-const minNum = 1;
-const maxNum = 100;
-const answer = Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
+const wordList = ["chile", "china", "haiti", "india", "italy", "japan", "malta", "nepal", "qatar", "samoa", "spain", "syria", "tonga", "yemen", "nauru", "palau"];
 
-console.log(answer);
+const playGame = () => {
+    const answer = wordList[Math.floor(Math.random() * wordList.length)];
+    const maxAttempts = 6;
+    let attempts = 0;
+    let running = true;
+    let guesses = [];
 
-let attempts = 0;
-let guess;
-let running = true;
-let wrongGuesses = [];
+    console.log(`Answer is: ${answer} (but this is cheating!)`);
 
-while(running) {
+    while (running) {
+        let historyString = guesses.length ? `\nPrevious Guesses:\n${guesses.join("\n")}\n` : "";
 
-    guess = window.prompt(`Guess a number between ${minNum} - ${maxNum}`);
-    guess = Number(guess);
-    wrongGuesses.push(guess);
-    
-    if(isNaN(guess)){
-        window.alert("Please enter a valid number");
-    } 
-    else if (guess < minNum || guess > maxNum){
-        window.alert("Please enter a valid number")
-    }
-    else {
+        let guess = window.prompt(`Guess a 5-letter country. Only use lower case letters!\n[ ]-correct letter and correct position\n( )-correct letter, wrong position (Attempt ${attempts + 1}/${maxAttempts}):${historyString}`);
+
+        if (guess === null) {
+            window.alert("Game canceled. Goodbye!");
+            return;
+        }
+
+        guess = guess.toLowerCase();
+
+        if (!guess || guess.length !== 5 || !wordList.includes(guess)) {
+            window.alert("Is this really a country? Make sure you type 5 letters and a COUNTRY!");
+            continue;
+        }
+
         attempts++;
-        if(guess < answer) {
-            window.alert(`TOO LOW! TRY AGAIN! Previous guesses: ${wrongGuesses.join("--")}`);
+
+        let feedback = "";
+        for (let i = 0; i < 5; i++) {
+            if (guess[i] === answer[i]) {
+                feedback += `[${guess[i].toUpperCase()}]`;
+            } else if (answer.includes(guess[i])) {
+                feedback += `(${guess[i]})`;
+            } else {
+                feedback += ` ${guess[i]} `;
+            }
         }
-        else if(guess > answer){
-            window.alert(`TOO HIGH! TRY AGAIN! Previous guesses: ${wrongGuesses.join("--")}`);
-        }
-        else {
-            window.alert(`CORRECT! The answer was ${answer}. It took you ${attempts} attempts.`);
+
+        guesses.push(`${guess.toUpperCase()} -> ${feedback}`);
+
+
+        if (guess === answer) {
+            window.alert(`Oh happy day! You guessed the correct country "${answer}" in ${attempts} attempts.\n\nGuess History:\n${guesses.join("\n")}`);
+            running = false;
+        } else if (attempts >= maxAttempts) {
+            window.alert(`Game over! The correct word was "${answer}".\n\nGuess History:\n${guesses.join("\n")}`);
             running = false;
         }
-        wrongGuesses.push(guess)
     }
 
-}
+    const playAgain = window.confirm("Do you want to play again?");
+    if (playAgain) {
+        playGame();
+    } else {
+        window.alert("Thanks for playing! See ya!")
+    }
+};
+
+
+playGame();
+
+
+
+
+
